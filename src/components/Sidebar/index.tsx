@@ -3,14 +3,14 @@ import { PencilSimpleLine } from "phosphor-react";
 
 import { Avatar } from "../Avatar";
 
-export function Sidebar() {
+export function Sidebar(props: any) {
   return (
-    <Box bg="gray.600" borderRadius={8} overflow="hidden" w="256px" h="294px" marginBottom="2rem" backgroundImage="/images/bg_desktop.svg">
+    <Box bg="gray.600" borderRadius={8} overflow="hidden" w={["100%", "256px"]} h="294px" marginBottom="2rem" backgroundImage="/images/bg_desktop.svg">
       <Img src="https://source.unsplash.com/random/wallpaper" w="100%" h="72px" objectFit="cover" alt="Header image"/>
       <Box display="flex" flexDirection="column" mt="calc(0px - 1.5rem - 6px)" alignItems="center">        
-        <Avatar src="https://github.com/aleksanderpalamar.png" />                
-        <Text as="strong" mt="1rem" color="gray.100" lineHeight="1.6">Aleksander Palamar</Text>
-        <Text as="span" fontSize="0.875rem" color="gray.400" lineHeight="1.6">Web Developer</Text>
+        <Avatar src={props.author.avatar} />                
+        <Text as="strong" mt="1rem" color="gray.100" lineHeight="1.6">{props.author.name}</Text>
+        <Text as="span" fontSize="0.875rem" color="gray.400" lineHeight="1.6">{props.author.role}</Text>
       </Box>      
       <Box 
         as="footer"

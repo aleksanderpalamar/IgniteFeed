@@ -62,7 +62,7 @@ export function Comment() {
             </Box>
           </Box>
           <Box as="p" aria-label="Comment" mt="1rem" color="gray.300">
-            Muito bom Devon, parabéns!! 👏👏
+            Muito bom, parabéns!! 👏👏
           </Box>
         </Box>
         <Box as="footer" mt="1rem">

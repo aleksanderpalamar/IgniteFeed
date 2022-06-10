@@ -2,7 +2,8 @@ import { Box, Img, Text } from "@chakra-ui/react";
 import { Avatar } from "../Avatar";
 import { Comment } from "../Comment";
 
-export function Post() {
+export function Post(props: any) {
+
   return (
     <Box
       as="article"
@@ -18,10 +19,10 @@ export function Post() {
         justifyContent="space-between"
       >
         <Box display="flex" alignItems="center" gap="1rem">
-          <Avatar src="https://github.com/aleksanderpalamar.png"/>
+          <Avatar src={props.author.avatar}/>
           <Box>
             <Box as="strong" color="gray.100" lineHeight="1.6" display="block">
-              Aleksander Palamar
+              {props.author.name}
             </Box>
             <Box
               as="span"
@@ -30,7 +31,7 @@ export function Post() {
               lineHeight="1.6"
               display="block"
             >
-              Web Developer
+              {props.author.role}
             </Box>
           </Box>
         </Box>
@@ -41,21 +42,31 @@ export function Post() {
           fontSize="0.875rem"
           color="gray.400"
         >
-          Publicado há 1h
+          {props.publishedAt.toLocaleString(
+            "pt-BR",
+            {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",              
+            }
+          )}
         </Box>
       </Box>
       <Box as="div" lineHeight="1.6" color="gray.300" marginTop="1.5rem">
         <Text as="p" marginTop="1rem">
           <Text as="p" marginTop="1rem">
-            Fala galeraa 👋{" "}
+            {props.content.map((item: any) => {
+              if (item.type === "paragraph") {
+                return <Text as="p" marginTop="1rem">{item.content}</Text>
+              }              
+            })}
           </Text>
           <Text as="p" marginTop="1rem">
-            Acabei de subir mais um projeto no meu portifa. É um projeto que fiz
-            é um feed de comentários, utilizando ReactJS, Typescript e Chakra-ui. O nome do projeto
-            é IgniteFeed 🚀{" "}
+            {" "}
           </Text>
-          <Text as="p" marginTop="1rem">
-            👉{" "}
+          <Text as="p" marginTop="1rem">            
             <Text
               as="a"
               href=""
@@ -71,62 +82,13 @@ export function Post() {
                 boxShadow: "0 0 0 2px #00875f",
               }}
             >
-              github.com/aleksanderpalamar/ignitefeed
+              {props.content.map((item: any) => {
+              if (item.type === "link") {
+                return <Text as="a" href={item.content}>{item.content}</Text>
+              }              
+            })}
             </Text>
-          </Text>
-          <Text as="p" marginTop="1rem">
-            <Text
-              as="a"
-              href=""
-              fontWeight="bold"
-              color="green.500"
-              textDecoration="none"
-              _hover={{
-                color: "green.300",
-                transition: "color 0.2s ease-in-out",
-              }}
-              _focus={{
-                outline: "transparent",
-                boxShadow: "0 0 0 2px #00875f",
-              }}
-            >
-              #novoprojeto
-            </Text>{" "}
-            <Text
-              as="a"
-              href=""
-              fontWeight="bold"
-              color="green.500"
-              textDecoration="none"
-              _hover={{
-                color: "green.300",
-                transition: "color 0.2s ease-in-out",
-              }}
-              _focus={{
-                outline: "transparent",
-                boxShadow: "0 0 0 2px #00875f",
-              }}
-            >
-              #reactjs
-            </Text>{" "}
-            <Text
-              as="a"
-              href=""
-              fontWeight="bold"
-              color="green.500"
-              textDecoration="none"
-              _hover={{
-                color: "green.300",
-                transition: "color 0.2s ease-in-out",
-              }}
-              _focus={{
-                outline: "transparent",
-                boxShadow: "0 0 0 2px #00875f",
-              }}
-            >
-              #typescript
-            </Text>{" "}
-          </Text>
+          </Text>          
         </Text>
       </Box>
       <Box
