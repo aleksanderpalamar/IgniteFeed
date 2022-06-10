@@ -12,13 +12,13 @@ interface PostProps {
     role: string;
   };
   publishedAt: Date;
-  content: {
+  content: {    
     type: string;
     content: string;
-  };
+  }[];
 }
 
-export function Post({ author, publishedAt, content }: any) {
+export function Post({ author, publishedAt, content }: PostProps) {
   const DateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
     locale: ptBR,
   })
@@ -107,7 +107,7 @@ export function Post({ author, publishedAt, content }: any) {
                 boxShadow: "0 0 0 2px #00875f",
               }}
             >
-              {content.map((item: any) => {
+              {content.map(item => {
                 if (item.type === "link") {
                   return (
                     <Text as="a" href={item.content}>
