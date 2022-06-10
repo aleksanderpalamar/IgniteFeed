@@ -1,10 +1,10 @@
-import { Box, Img, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { format, formatDistanceToNow } from "date-fns"
 import ptBR from "date-fns/locale/pt-BR";
 import { Avatar } from "../Avatar";
 import { Comment } from "../Comment";
 
-interface PostProps {
+export interface PostProps {
   id: number;
   author: {
     name: string;

@@ -3,7 +3,7 @@ import { Header } from "../src/components/Header";
 import { Sidebar } from "../src/components/Sidebar";
 import { Post } from "../src/components/Post";
 
-export const posts = [
+const posts = [
   {
     id: 1,
     author: {
@@ -38,8 +38,11 @@ export function App() {
         <Box as="aside">
           {posts.map(post => {
             return (
-              <Sidebar 
+              <Sidebar                
                 author={post.author}
+                id={0}
+                publishedAt={post.publishedAt}
+                content={[]}
               />
             )
           })}
@@ -48,7 +51,7 @@ export function App() {
           {posts.map(post => {
             return (
               <Post
-                id={0}
+                id={1}
                 author={post.author}
                 publishedAt={post.publishedAt}
                 content={post.content} 
