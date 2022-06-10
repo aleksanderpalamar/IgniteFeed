@@ -1,8 +1,32 @@
 import { Box, Img, Text } from "@chakra-ui/react";
+import { format, formatDistanceToNow } from "date-fns"
+import ptBR from "date-fns/locale/pt-BR";
 import { Avatar } from "../Avatar";
 import { Comment } from "../Comment";
 
-export function Post(props: any) {
+interface PostProps {
+  id: number;
+  author: {
+    name: string;
+    avatar: string;
+    role: string;
+  };
+  publishedAt: Date;
+  content: {
+    type: string;
+    content: string;
+  };
+}
+
+export function Post({ author, publishedAt, content }: any) {
+  const DateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
+    locale: ptBR,
+  })
+
+  const DateRelativeNow = formatDistanceToNow(publishedAt, {
+    addSuffix: true,
+    locale: ptBR,
+  })
 
   return (
     <Box
@@ -10,7 +34,7 @@ export function Post(props: any) {
       bg="gray.600"
       borderRadius={8}
       padding="2.5rem"
-      marginBottom="2rem"      
+      marginBottom="2rem"
     >
       <Box
         as="header"
@@ -19,10 +43,10 @@ export function Post(props: any) {
         justifyContent="space-between"
       >
         <Box display="flex" alignItems="center" gap="1rem">
-          <Avatar src={props.author.avatar}/>
+          <Avatar src={author.avatar} />
           <Box>
             <Box as="strong" color="gray.100" lineHeight="1.6" display="block">
-              {props.author.name}
+              {author.name}
             </Box>
             <Box
               as="span"
@@ -31,42 +55,43 @@ export function Post(props: any) {
               lineHeight="1.6"
               display="block"
             >
-              {props.author.role}
+              {author.role}
             </Box>
           </Box>
         </Box>
         <Box
           as="time"
-          title="04 de Junho às 11:47"
-          dateTime="2022-06-04 08:13:30"
+          title={DateFormatted}
+          dateTime={publishedAt.toISOString()}
           fontSize="0.875rem"
           color="gray.400"
         >
-          {props.publishedAt.toLocaleString(
-            "pt-BR",
-            {
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-              hour: "2-digit",
-              minute: "2-digit",              
-            }
-          )}
+          {DateRelativeNow}
         </Box>
       </Box>
       <Box as="div" lineHeight="1.6" color="gray.300" marginTop="1.5rem">
         <Text as="p" marginTop="1rem">
           <Text as="p" marginTop="1rem">
-            {props.content.map((item: any) => {
+            {content.map((item: any) => {
               if (item.type === "paragraph") {
-                return <Text as="p" marginTop="1rem">{item.content}</Text>
-              }              
+                return (
+                  <Text as="p" marginTop="1rem">
+                    {item.content}
+                  </Text>
+                );
+              } else if (item.type === "link") {
+                <Text as="p">
+                  <Text as="a" href="#">
+                    {item.content}
+                  </Text>
+                </Text>
+              }
             })}
           </Text>
           <Text as="p" marginTop="1rem">
             {" "}
           </Text>
-          <Text as="p" marginTop="1rem">            
+          <Text as="p" marginTop="1rem">
             <Text
               as="a"
               href=""
@@ -82,13 +107,17 @@ export function Post(props: any) {
                 boxShadow: "0 0 0 2px #00875f",
               }}
             >
-              {props.content.map((item: any) => {
-              if (item.type === "link") {
-                return <Text as="a" href={item.content}>{item.content}</Text>
-              }              
-            })}
+              {content.map((item: any) => {
+                if (item.type === "link") {
+                  return (
+                    <Text as="a" href={item.content}>
+                      {item.content}
+                    </Text>
+                  );
+                }
+              })}
             </Text>
-          </Text>          
+          </Text>
         </Text>
       </Box>
       <Box
