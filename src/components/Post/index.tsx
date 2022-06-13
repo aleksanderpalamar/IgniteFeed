@@ -19,17 +19,15 @@ export interface PostProps {
   }[];
 }
 
-type CommentProps = {
-  comment: string;
-};
-
 export function Post({ author, publishedAt, content }: PostProps) {
   const [comments, setComments] = useState(["Post super legal👏👏"]);
 
   const [newcomment, setNewComment] = useState("");
 
-  function handleNewComment(event: FormEvent) {
+  function handleNewComment(event: any) {
+    event.preventDefault();
     setNewComment(event.target.value);
+    
   }
 
   const DateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
@@ -92,17 +90,17 @@ export function Post({ author, publishedAt, content }: PostProps) {
       <Box as="div" lineHeight="1.6" color="gray.300" marginTop="1.5rem">
         <Text as="p" marginTop="1rem">
           <Text as="p" marginTop="1rem">
-            {content.map((item: any) => {
-              if (item.type === "paragraph") {
+            {content.map(line => {
+              if (line.type === "paragraph") {
                 return (
-                  <Text as="p" marginTop="1rem">
-                    {item.content}
+                  <Text as="p" key={line.content} marginTop="1rem">
+                    {line.content}
                   </Text>
                 );
-              } else if (item.type === "link") {
+              } else if (line.type === "link") {
                 <Text as="p">
-                  <Text as="a" href="#">
-                    {item.content}
+                  <Text as="a" key={line.content} href="#">
+                    {line.content}
                   </Text>
                 </Text>;
               }

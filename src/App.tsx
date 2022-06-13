@@ -13,12 +13,19 @@ const posts = [
     },
     publishedAt: new Date("2022-06-09 16:56:00 GMT-0300"),
     content: [
-      { type: "paragraph", content: "Fala galeraa 👋"},
-      { type: "paragraph", content: "Acabei de subir mais um projeto no meu portifa. É um projeto que fiz é um feed de comentários, utilizando ReactJS, Typescript e Chakra-ui. O nome do projeto é IgniteFeed 🚀"},
-      { type: "link", content: "https://github.com/aleksanderpalamar/IgniteFeed"},                 
+      { type: "paragraph", content: "Fala galeraa 👋" },
+      {
+        type: "paragraph",
+        content:
+          "Acabei de subir mais um projeto no meu portifa. É um projeto que fiz é um feed de comentários, utilizando ReactJS, Typescript e Chakra-ui. O nome do projeto é IgniteFeed 🚀",
+      },
+      {
+        type: "link",
+        content: "https://github.com/aleksanderpalamar/IgniteFeed",
+      },
     ],
   },
-]
+];
 
 export function App() {
   return (
@@ -31,32 +38,23 @@ export function App() {
         display={["block", "grid"]}
         flexDirection={["column", "row"]}
         gridTemplateColumns={["1fr", "256px 1fr"]}
-        fontSize={"87.5%"}
+        fontSize="87.5%"
         gap="2rem"
         alignItems={["center", "flex-start"]}
       >
         <Box as="aside">
-          {posts.map(post => {
-            return (
-              <Sidebar                
-                author={post.author}
-                id={0}
-                publishedAt={post.publishedAt}
-                content={[]}
-              />
-            )
-          })}
+          <Sidebar />
         </Box>
         <Box as="main">
           {posts.map(post => {
             return (
               <Post
-                id={1}
+                id={post.id}
                 author={post.author}
                 publishedAt={post.publishedAt}
-                content={post.content} 
+                content={post.content}
               />
-            )
+            );
           })}
         </Box>
       </Box>
