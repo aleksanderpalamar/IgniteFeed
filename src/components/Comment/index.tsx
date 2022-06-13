@@ -2,7 +2,7 @@ import { Box, Img, Text } from "@chakra-ui/react";
 import { ThumbsUp, Trash } from "phosphor-react";
 import { Avatar } from "../Avatar";
 
-export function Comment() {
+export function Comment({content}: {content: string}) {
   return (
     <Box mt="1.5rem" display="flex" gap="1rem" aria-label="Comment">
       <Avatar hasBorder={false} src="https://github.com/aleksanderpalamar.png" />
@@ -62,7 +62,7 @@ export function Comment() {
             </Box>
           </Box>
           <Box as="p" aria-label="Comment" mt="1rem" color="gray.300">
-            Muito bom, parabéns!! 👏👏
+            {content} 
           </Box>
         </Box>
         <Box as="footer" mt="1rem">

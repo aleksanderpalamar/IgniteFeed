@@ -1,6 +1,7 @@
 import { Box, Text } from "@chakra-ui/react";
-import { format, formatDistanceToNow } from "date-fns"
+import { format, formatDistanceToNow } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
+import { FormEvent, useState } from "react";
 import { Avatar } from "../Avatar";
 import { Comment } from "../Comment";
 
@@ -12,21 +13,40 @@ export interface PostProps {
     role: string;
   };
   publishedAt: Date;
-  content: {    
+  content: {
     type: string;
     content: string;
   }[];
 }
 
+type CommentProps = {
+  comment: string;
+};
+
 export function Post({ author, publishedAt, content }: PostProps) {
+  const [comments, setComments] = useState(["Post super legal👏👏"]);
+
+  const [newcomment, setNewComment] = useState("");
+
+  function handleNewComment(event: FormEvent) {
+    setNewComment(event.target.value);
+  }
+
   const DateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
     locale: ptBR,
-  })
+  });
 
   const DateRelativeNow = formatDistanceToNow(publishedAt, {
     addSuffix: true,
     locale: ptBR,
-  })
+  });
+
+  function handleCreateNewComment(event: FormEvent) {
+    event.preventDefault();
+
+    setComments([...comments, newcomment]);
+    setNewComment("");
+  }
 
   return (
     <Box
@@ -84,7 +104,7 @@ export function Post({ author, publishedAt, content }: PostProps) {
                   <Text as="a" href="#">
                     {item.content}
                   </Text>
-                </Text>
+                </Text>;
               }
             })}
           </Text>
@@ -107,7 +127,7 @@ export function Post({ author, publishedAt, content }: PostProps) {
                 boxShadow: "0 0 0 2px #00875f",
               }}
             >
-              {content.map(item => {
+              {content.map((item) => {
                 if (item.type === "link") {
                   return (
                     <Text as="a" href={item.content}>
@@ -122,6 +142,7 @@ export function Post({ author, publishedAt, content }: PostProps) {
       </Box>
       <Box
         as="form"
+        onSubmit={handleCreateNewComment}
         w="100%"
         marginTop="1.5rem"
         paddingTop="1.5rem"
@@ -132,6 +153,9 @@ export function Post({ author, publishedAt, content }: PostProps) {
         </Text>
         <Box
           as="textarea"
+          name="comment"
+          onChange={handleNewComment}
+          value={newcomment}
           placeholder="Escreva um comentário..."
           w="100%"
           border="0"
@@ -151,7 +175,7 @@ export function Post({ author, publishedAt, content }: PostProps) {
 
         <Box
           as="button"
-          type="button"
+          type="submit"
           bg="green.500"
           color="gray.100"
           padding="1rem 1.5rem"
@@ -170,9 +194,9 @@ export function Post({ author, publishedAt, content }: PostProps) {
           Publicar
         </Box>
         <Box marginTop="2rem">
-          <Comment />
-          <Comment />
-          <Comment />
+          {comments.map((comment: string) => {
+            return <Comment content={comment} />;
+          })}
         </Box>
       </Box>
     </Box>
