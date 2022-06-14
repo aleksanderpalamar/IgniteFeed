@@ -23,12 +23,7 @@ export function Post({ author, publishedAt, content }: PostProps) {
   const [comments, setComments] = useState(["Post super legal👏👏"]);
 
   const [newcomment, setNewComment] = useState("");
-
-  function handleNewComment(event: any) {
-    event.preventDefault();
-    setNewComment(event.target.value);
-  }
-
+  
   const DateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
     locale: ptBR,
   });
@@ -45,9 +40,21 @@ export function Post({ author, publishedAt, content }: PostProps) {
     setNewComment("");
   }
 
-  function deleteComment(comment: any) {
+  function deleteComment(comment: string) {
     setComments(comments.filter((c) => c !== comment));
   }
+
+  function handleNewComment(event: any) {
+    event.preventDefault();
+    event.target.setCustomValidity("");
+    setNewComment(event.target.value);
+  }
+
+  function handleNewCommentInvalid(event: any) {    
+    event.target.setCustomValidity("Esse campo é obrigatório");    
+  }
+
+  const isNewCommentEmpty = newcomment.length === 0;
 
   return (
     <Box
@@ -126,7 +133,9 @@ export function Post({ author, publishedAt, content }: PostProps) {
           as="textarea"
           name="comment"
           onChange={handleNewComment}
+          onInvalid={handleNewCommentInvalid}
           value={newcomment}
+          required
           placeholder="Escreva um comentário..."
           w="100%"
           border="0"
@@ -152,10 +161,15 @@ export function Post({ author, publishedAt, content }: PostProps) {
           border="0"
           borderRadius="full"
           marginTop="1rem"
+          disabled={isNewCommentEmpty}
+          _disabled={{
+            cursor: "not-allowed",
+            opacity: 0.7,            
+          }}          
           _hover={{
             bg: "green.300",
-            transition: "background-color 0.2s ease-in-out",
-          }}
+            transition: "background-color 0.2s ease-in-out",                                  
+          }}          
           _focus={{
             outline: "transparent",
             boxShadow: "0 0 0 2px #00b37e",

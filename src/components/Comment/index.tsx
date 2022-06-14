@@ -1,15 +1,26 @@
 import { Box, Img, Text } from "@chakra-ui/react";
 import { ThumbsUp, Trash } from "phosphor-react";
+import { useState } from "react";
 import { Avatar } from "../Avatar";
 
-export function Comment({content, onDeleteComment }: any) {
+export function Comment({ content, onDeleteComment }: any) {
+  const [likeCount, setLikeCount] = useState(0);
+
+  function handleLikeComment() {
+    setLikeCount(likeCount + 1);
+  }
+
+
   function handleDeleteComment() {
     onDeleteComment(content);
-  }
+  }   
 
   return (
     <Box mt="1.5rem" display="flex" gap="1rem" aria-label="Comment">
-      <Avatar hasBorder={false} src="https://github.com/aleksanderpalamar.png" />
+      <Avatar
+        hasBorder={false}
+        src="https://github.com/aleksanderpalamar.png"
+      />
       <Box aria-label="Comment Box" flex={1}>
         <Box
           bg="gray.500"
@@ -67,7 +78,7 @@ export function Comment({content, onDeleteComment }: any) {
             </Box>
           </Box>
           <Box as="p" aria-label="Comment" mt="1rem" color="gray.300">
-            {content} 
+            {content}
           </Box>
         </Box>
         <Box as="footer" mt="1rem">
@@ -78,7 +89,8 @@ export function Comment({content, onDeleteComment }: any) {
             bg="transparent"
             alignItems="center"
             justifyContent="center"
-            gap="2"
+            gap="2"            
+            onClick={handleLikeComment}
             fontSize="0.875rem"
             lineHeight="1.6rem"
             _hover={{
@@ -89,15 +101,7 @@ export function Comment({content, onDeleteComment }: any) {
             borderRadius="2"
           >
             <ThumbsUp size={20} alt="Like" />
-            Aplaudir{" "}
-            <Text
-              as="span"
-              color="gray.400"
-              fontSize="0.75rem"
-              lineHeight="1.6rem"
-            >
-              20
-            </Text>
+            Aplaudir • {likeCount}
           </Box>
         </Box>
       </Box>
