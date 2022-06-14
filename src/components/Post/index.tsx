@@ -1,7 +1,7 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, Textarea } from "@chakra-ui/react";
 import { format, formatDistanceToNow } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
 import { Avatar } from "../Avatar";
 import { Comment } from "../Comment";
 
@@ -23,7 +23,7 @@ export function Post({ author, publishedAt, content }: PostProps) {
   const [comments, setComments] = useState(["Post super legal👏👏"]);
 
   const [newcomment, setNewComment] = useState("");
-  
+
   const DateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
     locale: ptBR,
   });
@@ -40,18 +40,17 @@ export function Post({ author, publishedAt, content }: PostProps) {
     setNewComment("");
   }
 
-  function deleteComment(comment: string) {
-    setComments(comments.filter((c) => c !== comment));
-  }
-
-  function handleNewComment(event: any) {
-    event.preventDefault();
+  function handleNewCommentChange(event: ChangeEvent<HTMLTextAreaElement>) {
     event.target.setCustomValidity("");
     setNewComment(event.target.value);
   }
 
-  function handleNewCommentInvalid(event: any) {    
-    event.target.setCustomValidity("Esse campo é obrigatório");    
+  function handleNewCommentInvalid(event: InvalidEvent<HTMLTextAreaElement>) {
+    event.target.setCustomValidity("Esse campo é obrigatório");
+  }
+
+  function deleteComment(comment: string) {
+    setComments(comments.filter((c) => c !== comment));
   }
 
   const isNewCommentEmpty = newcomment.length === 0;
@@ -71,7 +70,7 @@ export function Post({ author, publishedAt, content }: PostProps) {
         justifyContent="space-between"
       >
         <Box display="flex" alignItems="center" gap="1rem">
-          <Avatar src={author.avatar} />
+          <Avatar src={author.avatar} title="Avatar picture" alt="Avatar picture"/>
           <Box>
             <Box as="strong" color="gray.100" lineHeight="1.6" display="block">
               {author.name}
@@ -129,10 +128,9 @@ export function Post({ author, publishedAt, content }: PostProps) {
         <Text as="strong" lineHeight="1.6" color="gray.100">
           Deixe seu comentário
         </Text>
-        <Box
-          as="textarea"
+        <Textarea          
           name="comment"
-          onChange={handleNewComment}
+          onChange={handleNewCommentChange}
           onInvalid={handleNewCommentInvalid}
           value={newcomment}
           required
@@ -164,12 +162,12 @@ export function Post({ author, publishedAt, content }: PostProps) {
           disabled={isNewCommentEmpty}
           _disabled={{
             cursor: "not-allowed",
-            opacity: 0.7,            
-          }}          
+            opacity: 0.7,
+          }}
           _hover={{
             bg: "green.300",
-            transition: "background-color 0.2s ease-in-out",                                  
-          }}          
+            transition: "background-color 0.2s ease-in-out",
+          }}
           _focus={{
             outline: "transparent",
             boxShadow: "0 0 0 2px #00b37e",
@@ -179,7 +177,13 @@ export function Post({ author, publishedAt, content }: PostProps) {
         </Box>
         <Box marginTop="2rem">
           {comments.map((comment) => {
-            return <Comment key={comment} content={comment} onDeleteComment={deleteComment}/>;
+            return (
+              <Comment
+                key={comment}
+                content={comment}
+                onDeleteComment={deleteComment}
+              />
+            );
           })}
         </Box>
       </Box>

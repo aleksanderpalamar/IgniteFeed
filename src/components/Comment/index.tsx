@@ -3,13 +3,19 @@ import { ThumbsUp, Trash } from "phosphor-react";
 import { useState } from "react";
 import { Avatar } from "../Avatar";
 
-export function Comment({ content, onDeleteComment }: any) {
+interface CommentProps {
+  content: string;
+  onDeleteComment: (comment: string) => void;
+}
+
+export function Comment({ content, onDeleteComment }: CommentProps) {
   const [likeCount, setLikeCount] = useState(0);
 
-  function handleLikeComment() {
-    setLikeCount(likeCount + 1);
+  function handleLikeComment() {    
+    setLikeCount((state) => {
+      return state + 1      
+    });       
   }
-
 
   function handleDeleteComment() {
     onDeleteComment(content);
@@ -20,6 +26,8 @@ export function Comment({ content, onDeleteComment }: any) {
       <Avatar
         hasBorder={false}
         src="https://github.com/aleksanderpalamar.png"
+        title="Avatar picture"
+        alt="Avatar picture"
       />
       <Box aria-label="Comment Box" flex={1}>
         <Box
