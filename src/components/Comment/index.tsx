@@ -2,7 +2,11 @@ import { Box, Img, Text } from "@chakra-ui/react";
 import { ThumbsUp, Trash } from "phosphor-react";
 import { Avatar } from "../Avatar";
 
-export function Comment({content}: {content: string}) {
+export function Comment({content, onDeleteComment }: any) {
+  function handleDeleteComment() {
+    onDeleteComment(content);
+  }
+
   return (
     <Box mt="1.5rem" display="flex" gap="1rem" aria-label="Comment">
       <Avatar hasBorder={false} src="https://github.com/aleksanderpalamar.png" />
@@ -43,6 +47,7 @@ export function Comment({content}: {content: string}) {
             <Box
               as="button"
               bg="transparent"
+              onClick={handleDeleteComment}
               border={0}
               color="gray.400"
               cursor="pointer"

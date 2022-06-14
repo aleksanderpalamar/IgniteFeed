@@ -27,7 +27,6 @@ export function Post({ author, publishedAt, content }: PostProps) {
   function handleNewComment(event: any) {
     event.preventDefault();
     setNewComment(event.target.value);
-    
   }
 
   const DateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
@@ -44,6 +43,10 @@ export function Post({ author, publishedAt, content }: PostProps) {
 
     setComments([...comments, newcomment]);
     setNewComment("");
+  }
+
+  function deleteComment(comment: any) {
+    setComments(comments.filter((c) => c !== comment));
   }
 
   return (
@@ -88,55 +91,25 @@ export function Post({ author, publishedAt, content }: PostProps) {
         </Box>
       </Box>
       <Box as="div" lineHeight="1.6" color="gray.300" marginTop="1.5rem">
-        <Text as="p" marginTop="1rem">
-          <Text as="p" marginTop="1rem">
-            {content.map(line => {
+        <Box as="div" marginTop="1rem">
+          <Box as="div" marginTop="1rem">
+            {content.map((line) => {
               if (line.type === "paragraph") {
                 return (
-                  <Text as="p" key={line.content} marginTop="1rem">
+                  <Text as="span" key={line.content} marginTop="1rem">
                     {line.content}
                   </Text>
                 );
               } else if (line.type === "link") {
-                <Text as="p">
+                <Text as="span">
                   <Text as="a" key={line.content} href="#">
                     {line.content}
                   </Text>
                 </Text>;
               }
             })}
-          </Text>
-          <Text as="p" marginTop="1rem">
-            {" "}
-          </Text>
-          <Text as="p" marginTop="1rem">
-            <Text
-              as="a"
-              href=""
-              fontWeight="bold"
-              color="green.500"
-              textDecoration="none"
-              _hover={{
-                color: "green.300",
-                transition: "color 0.2s ease-in-out",
-              }}
-              _focus={{
-                outline: "transparent",
-                boxShadow: "0 0 0 2px #00875f",
-              }}
-            >
-              {content.map((item) => {
-                if (item.type === "link") {
-                  return (
-                    <Text as="a" href={item.content}>
-                      {item.content}
-                    </Text>
-                  );
-                }
-              })}
-            </Text>
-          </Text>
-        </Text>
+          </Box>
+        </Box>
       </Box>
       <Box
         as="form"
@@ -170,7 +143,6 @@ export function Post({ author, publishedAt, content }: PostProps) {
             boxShadow: "0 0 0 2px #00875f",
           }}
         />
-
         <Box
           as="button"
           type="submit"
@@ -192,8 +164,8 @@ export function Post({ author, publishedAt, content }: PostProps) {
           Publicar
         </Box>
         <Box marginTop="2rem">
-          {comments.map((comment: string) => {
-            return <Comment content={comment} />;
+          {comments.map((comment) => {
+            return <Comment key={comment} content={comment} onDeleteComment={deleteComment}/>;
           })}
         </Box>
       </Box>

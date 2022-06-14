@@ -27,7 +27,7 @@ const posts = [
   },
 ];
 
-export function App() {
+export function App(): JSX.Element {
   return (
     <>
       <Header />
@@ -46,7 +46,7 @@ export function App() {
           <Sidebar />
         </Box>
         <Box as="main">
-          {posts.map(post => {
+          {posts.map((post) => {
             return (
               <Post
                 id={post.id}
