@@ -1,4 +1,4 @@
-import { Box, Img, Text } from "@chakra-ui/react";
+import { Box, Button, Img, Text } from "@chakra-ui/react";
 import { ThumbsUp, Trash } from "phosphor-react";
 import { useState } from "react";
 import { Avatar } from "../Avatar";
@@ -82,8 +82,8 @@ export function Comment({ content, onDeleteComment }: any) {
           </Box>
         </Box>
         <Box as="footer" mt="1rem">
-          <Box
-            as="button"
+          <Button
+            variant="unstyled"            
             display="flex"
             border="0"
             bg="transparent"
@@ -102,7 +102,7 @@ export function Comment({ content, onDeleteComment }: any) {
           >
             <ThumbsUp size={20} alt="Like" />
             Aplaudir • {likeCount}
-          </Box>
+          </Button>
         </Box>
       </Box>
     </Box>
